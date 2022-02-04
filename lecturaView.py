@@ -160,11 +160,11 @@ def obtenerParametros():
     if tag1 == "" :
         isCompleto = False 
 
-    if tag2 == "" :
-        isCompleto = True    
+#    if tag2 == "" :
+#        isCompleto = False    
 
-    if tag3 == "" :
-        isCompleto = True
+#    if tag3 == "" :
+#        isCompleto = False
 
     if segundo == "" :
         isCompleto = False
