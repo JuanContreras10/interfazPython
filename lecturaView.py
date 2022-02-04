@@ -23,13 +23,13 @@ segubdoLabel = tk.Label(root, text="Seg:")
 #configuracion pantallaprincipal
 def configWindow():
     #tamaño y pos de pantalla
-    ancho_ventana = 600
-    alto_ventana = 150
+    anchoVentana = 600
+    altoVentana = 150
 
-    x_ventana = root.winfo_screenwidth() // 2 - ancho_ventana // 2
-    y_ventana = root.winfo_screenheight() // 2 - alto_ventana // 2
+    xVentana = root.winfo_screenwidth() // 2 - anchoVentana // 2
+    yVentana = root.winfo_screenheight() // 2 - altoVentana // 2
 
-    posicion = str(ancho_ventana) + "x" + str(alto_ventana) + "+" + str(x_ventana) + "+" + str(y_ventana)
+    posicion = str(anchoVentana) + "x" + str(altoVentana) + "+" + str(xVentana) + "+" + str(yVentana)
 
     root.geometry(posicion)
     root.resizable(0, 0)
@@ -46,16 +46,16 @@ def configWindow2(idPrueba,ant,metraje,tag1,tag2,tag3,segundo):
     pantallaResultado = Toplevel()
     
     pantallaResultado.title("Resultados")
-    ancho_ventana = 250
-    alto_ventana = 350
+    anchoVentana = 250
+    altoVentana = 350
 
-    x_ventana = pantallaResultado.winfo_screenwidth() // 2 - ancho_ventana // 2
-    y_ventana = pantallaResultado.winfo_screenheight() // 2 - alto_ventana // 2
+    xVentana = pantallaResultado.winfo_screenwidth() // 2 - anchoVentana // 2
+    yVentana = pantallaResultado.winfo_screenheight() // 2 - altoVentana // 2
 
-    posicion = str(ancho_ventana) + "x" + str(alto_ventana) + "+" + str(x_ventana+10) + "+" + str(y_ventana+10)
+    posicion = str(anchoVentana) + "x" + str(altoVentana) + "+" + str(xVentana+10) + "+" + str(yVentana+10)
 
     pantallaResultado.geometry(posicion)
-    pantallaResultado.resizable(0, 0)
+    #pantallaResultado.resizable(0, 0)
 
     def cerrar():
         pantallaResultado.destroy()
@@ -106,13 +106,13 @@ def configWindow3():
     pantallaAlerta = Toplevel()
     
     pantallaAlerta.title("Alerta")
-    ancho_ventana = 200
-    alto_ventana = 200
+    anchoVentana = 200
+    altoVentana = 200
 
-    x_ventana = pantallaAlerta.winfo_screenwidth() // 2 - ancho_ventana // 2
-    y_ventana = pantallaAlerta.winfo_screenheight() // 2 - alto_ventana // 2
+    xVentana = pantallaAlerta.winfo_screenwidth() // 2 - anchoVentana // 2
+    yVentana = pantallaAlerta.winfo_screenheight() // 2 - altoVentana // 2
 
-    posicion = str(ancho_ventana) + "x" + str(alto_ventana) + "+" + str(x_ventana+10) + "+" + str(y_ventana+10)
+    posicion = str(anchoVentana) + "x" + str(altoVentana) + "+" + str(xVentana+10) + "+" + str(yVentana+10)
 
     pantallaAlerta.geometry(posicion)
     pantallaAlerta.resizable(0, 0)
@@ -160,11 +160,11 @@ def obtenerParametros():
     if tag1 == "" :
         isCompleto = False 
 
-#    if tag2 == "" :
-#        isCompleto = False    
+    #    if tag2 == "" :
+    #        isCompleto = False    
 
-#    if tag3 == "" :
-#        isCompleto = False
+    #    if tag3 == "" :
+    #        isCompleto = False
 
     if segundo == "" :
         isCompleto = False
