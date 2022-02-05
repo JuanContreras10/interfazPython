@@ -2,6 +2,9 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import *
 from PIL import Image, ImageTk
+import sys
+sys.path.append('./antena_direccional')
+from antena_direccional import Servicio
 
 
 root = tk.Tk()
@@ -146,6 +149,7 @@ def obtenerParametros():
     tag3 = tagEntry3.get()
     segundo = segCombo.get()
     isCompleto = True
+    
 
 
     if idPrueba == "" :
@@ -172,6 +176,8 @@ def obtenerParametros():
 
     if isCompleto :
         print(idPrueba + ant + metraje + tag1 + tag2 + tag3 + segundo)
+        servicio = Servicio(idPrueba, ant, metraje, tag1, segundo)
+        servicio.servicioFuncion()
         configWindow2(idPrueba,ant,metraje,tag1,tag2,tag3,segundo)
         
     else :     
@@ -185,13 +191,12 @@ segundoSet.set('60')
 
 metrajeLista = ['160','150','140','130','120','110','100','90','80','70','60','50','40','30','20','10','0','-10','-20','-30','-40','-50','-60','-70','-80','-90','-100','110','-120','-130','-140','-150','-160']
 metrajeSet = tk.StringVar(root)
-metrajeSet.set('160')
+metrajeSet.set('-160')
 #widgets 
 idPruebaEntry = ttk.Entry(root,   validate="key",
     validatecommand=(root.register(validarIdPrueba), "%S"))
 
-antEntry = ttk.Entry(root,  validate="key",
-    validatecommand=(root.register(validarIdPrueba), "%S"))
+antEntry = ttk.Entry(root)
 
 metajeCombo =  ttk.Combobox(root,values = metrajeLista, textvariable=metrajeSet)
 
