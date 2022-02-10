@@ -12,7 +12,7 @@ class SocketsD:
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
         self.conn = ""
-        self.mensaje = ""
+       
         self.diss = ""
     
     def getConexion(self):
@@ -26,9 +26,9 @@ class SocketsD:
         return self.conn
     
     def mensajeServer(self):
-        self.mensaje = self.sock.recv(1024)
+       mensaje = self.sock.recv(1024)
         #print(mensaje)
-        return self.mensaje
+       return mensaje
     
     def getDesconexion(self):
         try:

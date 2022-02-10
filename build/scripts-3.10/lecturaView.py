@@ -2,6 +2,9 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import *
 from PIL import Image, ImageTk
+import sys
+sys.path.append('./antena_direccional')
+from antena_direccional import Servicio
 
 
 root = tk.Tk()
@@ -23,13 +26,13 @@ segubdoLabel = tk.Label(root, text="Seg:")
 #configuracion pantallaprincipal
 def configWindow():
     #tamaño y pos de pantalla
-    ancho_ventana = 600
-    alto_ventana = 150
+    anchoVentana = 600
+    altoVentana = 150
 
-    x_ventana = root.winfo_screenwidth() // 2 - ancho_ventana // 2
-    y_ventana = root.winfo_screenheight() // 2 - alto_ventana // 2
+    xVentana = root.winfo_screenwidth() // 2 - anchoVentana // 2
+    yVentana = root.winfo_screenheight() // 2 - altoVentana // 2
 
-    posicion = str(ancho_ventana) + "x" + str(alto_ventana) + "+" + str(x_ventana) + "+" + str(y_ventana)
+    posicion = str(anchoVentana) + "x" + str(altoVentana) + "+" + str(xVentana) + "+" + str(yVentana)
 
     root.geometry(posicion)
     root.resizable(0, 0)
@@ -46,16 +49,16 @@ def configWindow2(idPrueba,ant,metraje,tag1,tag2,tag3,segundo):
     pantallaResultado = Toplevel()
     
     pantallaResultado.title("Resultados")
-    ancho_ventana = 250
-    alto_ventana = 350
+    anchoVentana = 250
+    altoVentana = 350
 
-    x_ventana = pantallaResultado.winfo_screenwidth() // 2 - ancho_ventana // 2
-    y_ventana = pantallaResultado.winfo_screenheight() // 2 - alto_ventana // 2
+    xVentana = pantallaResultado.winfo_screenwidth() // 2 - anchoVentana // 2
+    yVentana = pantallaResultado.winfo_screenheight() // 2 - altoVentana // 2
 
-    posicion = str(ancho_ventana) + "x" + str(alto_ventana) + "+" + str(x_ventana+10) + "+" + str(y_ventana+10)
+    posicion = str(anchoVentana) + "x" + str(altoVentana) + "+" + str(xVentana+10) + "+" + str(yVentana+10)
 
     pantallaResultado.geometry(posicion)
-    pantallaResultado.resizable(0, 0)
+    #pantallaResultado.resizable(0, 0)
 
     def cerrar():
         pantallaResultado.destroy()
@@ -84,6 +87,7 @@ def configWindow2(idPrueba,ant,metraje,tag1,tag2,tag3,segundo):
     lecturaBtn.grid(pady=(20,5), padx=(20,20),  row=3, column=1)
     tituloLecturaLabel.grid(pady=(20,5), padx=(20,20),  row=4, columnspan=2)
 
+    """
     lst = [
         "0001",
         "0002",
@@ -98,7 +102,7 @@ def configWindow2(idPrueba,ant,metraje,tag1,tag2,tag3,segundo):
          valor = StringVar()
          valor.set(lst[i])
          row = Entry(pantallaResultado, textvariable=valor, fg='blue',state=DISABLED) 
-         row.grid(row=5+i,padx=5,pady=2, columnspan=2) 
+         row.grid(row=5+i,padx=5,pady=2, columnspan=2)"""
          
 #pantalla alerta
 def configWindow3():
@@ -106,13 +110,13 @@ def configWindow3():
     pantallaAlerta = Toplevel()
     
     pantallaAlerta.title("Alerta")
-    ancho_ventana = 200
-    alto_ventana = 200
+    anchoVentana = 200
+    altoVentana = 200
 
-    x_ventana = pantallaAlerta.winfo_screenwidth() // 2 - ancho_ventana // 2
-    y_ventana = pantallaAlerta.winfo_screenheight() // 2 - alto_ventana // 2
+    xVentana = pantallaAlerta.winfo_screenwidth() // 2 - anchoVentana // 2
+    yVentana = pantallaAlerta.winfo_screenheight() // 2 - altoVentana // 2
 
-    posicion = str(ancho_ventana) + "x" + str(alto_ventana) + "+" + str(x_ventana+10) + "+" + str(y_ventana+10)
+    posicion = str(anchoVentana) + "x" + str(altoVentana) + "+" + str(xVentana+10) + "+" + str(yVentana+10)
 
     pantallaAlerta.geometry(posicion)
     pantallaAlerta.resizable(0, 0)
@@ -146,6 +150,7 @@ def obtenerParametros():
     tag3 = tagEntry3.get()
     segundo = segCombo.get()
     isCompleto = True
+    
 
 
     if idPrueba == "" :
@@ -172,6 +177,8 @@ def obtenerParametros():
 
     if isCompleto :
         print(idPrueba + ant + metraje + tag1 + tag2 + tag3 + segundo)
+        servicio = Servicio(idPrueba, ant, metraje, tag1, segundo)
+        servicio.servicioFuncion()
         configWindow2(idPrueba,ant,metraje,tag1,tag2,tag3,segundo)
         
     else :     
@@ -190,8 +197,7 @@ metrajeSet.set('160')
 idPruebaEntry = ttk.Entry(root,   validate="key",
     validatecommand=(root.register(validarIdPrueba), "%S"))
 
-antEntry = ttk.Entry(root,  validate="key",
-    validatecommand=(root.register(validarIdPrueba), "%S"))
+antEntry = ttk.Entry(root)
 
 metajeCombo =  ttk.Combobox(root,values = metrajeLista, textvariable=metrajeSet)
 
@@ -243,3 +249,4 @@ def body():
 configWindow()
 body()
 root.mainloop()
+input()

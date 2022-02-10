@@ -23,11 +23,13 @@ tag2Label = tk.Label(root, text="Tag 2:")
 tag3Label = tk.Label(root, text="Tag 3:")
 segubdoLabel = tk.Label(root, text="Seg:")
 
+
+
 #configuracion pantallaprincipal
 def configWindow():
     #tamaño y pos de pantalla
     anchoVentana = 600
-    altoVentana = 150
+    altoVentana = 190
 
     xVentana = root.winfo_screenwidth() // 2 - anchoVentana // 2
     yVentana = root.winfo_screenheight() // 2 - altoVentana // 2
@@ -44,7 +46,7 @@ def configWindow():
     root.columnconfigure(5, weight=2)
 
 #configuracion pantalla 2
-def configWindow2(idPrueba,ant,metraje,tag1,tag2,tag3,segundo):
+def configWindow2(idPrueba,ant,metraje,tag1,tag2,tag3,segundo,o,d):
     #tamaño y pos de pantalla
     pantallaResultado = Toplevel()
     
@@ -87,12 +89,10 @@ def configWindow2(idPrueba,ant,metraje,tag1,tag2,tag3,segundo):
     lecturaBtn.grid(pady=(20,5), padx=(20,20),  row=3, column=1)
     tituloLecturaLabel.grid(pady=(20,5), padx=(20,20),  row=4, columnspan=2)
 
+    
     lst = [
-        "0001",
-        "0002",
-        "0003",
-        "0004",
-        "0005"
+        "Direccional: " + str(d),
+        "OmniDireccional: " + str(o)       
     ] 
    
     rows = len(lst) 
@@ -101,7 +101,7 @@ def configWindow2(idPrueba,ant,metraje,tag1,tag2,tag3,segundo):
          valor = StringVar()
          valor.set(lst[i])
          row = Entry(pantallaResultado, textvariable=valor, fg='blue',state=DISABLED) 
-         row.grid(row=5+i,padx=5,pady=2, columnspan=2) 
+         row.grid(row=5+i,padx=5,pady=2, columnspan=2)
          
 #pantalla alerta
 def configWindow3():
@@ -175,10 +175,13 @@ def obtenerParametros():
                
 
     if isCompleto :
-        print(idPrueba + ant + metraje + tag1 + tag2 + tag3 + segundo)
+       #print(idPrueba + ant + metraje + tag1 + tag2 + tag3 + segundo)
         servicio = Servicio(idPrueba, ant, metraje, tag1, segundo)
         servicio.servicioFuncion()
-        configWindow2(idPrueba,ant,metraje,tag1,tag2,tag3,segundo)
+        contadorO = servicio.getO()
+        contadorD = servicio.getD()
+        
+        configWindow2(idPrueba,ant,metraje,tag1,tag2,tag3,segundo,contadorO,contadorD)
         
     else :     
         configWindow3()
@@ -191,7 +194,10 @@ segundoSet.set('60')
 
 metrajeLista = ['160','150','140','130','120','110','100','90','80','70','60','50','40','30','20','10','0','-10','-20','-30','-40','-50','-60','-70','-80','-90','-100','110','-120','-130','-140','-150','-160']
 metrajeSet = tk.StringVar(root)
-metrajeSet.set('-160')
+metrajeSet.set('160')
+
+advertenciaStr = tk.StringVar(root)
+advertenciaStr.set('Advertencia no coloques el mismo idPrueba para mas de un Tag podria causar un error')
 #widgets 
 idPruebaEntry = ttk.Entry(root,   validate="key",
     validatecommand=(root.register(validarIdPrueba), "%S"))
@@ -210,6 +216,8 @@ tagEntry2 = ttk.Entry(root, state=DISABLED,   validate="key",
 
 tagEntry3 = ttk.Entry(root, state=DISABLED,  validate="key",
     validatecommand=(root.register(validarIdPrueba), "%S"))
+
+advertenciaEntry =  ttk.Entry(root, state=DISABLED, textvariable=advertenciaStr, width=100)
 
 #botones
 lecturaBtn= tk.Button(root, text="Ejecutar Lectura",bg="#3498DB", fg="white", command = obtenerParametros)
@@ -239,8 +247,9 @@ def body():
     segubdoLabel.grid(pady=(20,5), padx=5 ,  row=2, column=0)
     segCombo.grid(pady=(20,5), padx=(2,20),  row=2, column=1)
     #botones    
-    lecturaBtn.grid(pady=(20,5), padx=(20,20),  row=2, column=5)
-    
+    lecturaBtn.grid(pady=(20,5), padx=5,  row=2, column=5)
+    advertenciaEntry.grid(pady=5, padx=5, row=3, column=0, columnspan=5)
+   
 
 
 
@@ -248,3 +257,4 @@ def body():
 configWindow()
 body()
 root.mainloop()
+input()

@@ -18,17 +18,17 @@ class appDao:
            
 
 
-      def updateO(self, resultadoFinal):
+      def updateO(self, resultadoFinal, tiempoCorriendo):
         cursor2 = self.conexion.cursor()
         queryupdate = "UPDATE pruebas_omnidireccional SET tag=%s, hora_tag=%s WHERE hora_inicial=%s"
-        datosIngresarTag = (resultadoFinal[0],resultadoFinal[2],tiempoCorriendoString)
+        datosIngresarTag = (resultadoFinal[0],resultadoFinal[2],tiempoCorriendo)
         cursor2.execute(queryupdate,datosIngresarTag)
         self.conexion.commit()
 
-      def updateD(self, resultadoFinal):
+      def updateD(self, resultadoFinal, tiempoCorriendo):
         cursor2 = self.conexion.cursor()
         queryupdate = "UPDATE pruebas_direccional SET tag=%s, hora_tag=%s WHERE hora_inicial=%s"
-        datosIngresarTag = (resultadoFinal[0],resultadoFinal[2],tiempoCorriendoString)
+        datosIngresarTag = (resultadoFinal[0],resultadoFinal[2],tiempoCorriendo)
         cursor2.execute(queryupdate,datosIngresarTag)
         self.conexion.commit()
         
@@ -48,13 +48,13 @@ class appDao:
       
 
 class Servicio:
-
+   
     def __init__(self, idPrueba, antNombre, metraje, tag, segundos):
         #self.antenaDireccional = "D" #nombre
         #self.antenaOnm = "O" #nombre
         #self.altura = "12" #altura
 
-        self.muestra = "01" #idPrueba
+        self.muestra = idPrueba #idPrueba
         self.nombreAntenaD = antNombre
         self.nombreAntenaO = antNombre
         self.distancia = metraje #metraje
@@ -69,12 +69,14 @@ class Servicio:
         self.tiempo = datetime.now()
         self.fecha = str(date.today())
         self.localtime = time.localtime()
-
+        self.enteroO = 0
+        self.enteroD = 0
         self.soD.getConexion()
         self.soO.getConexion()
     
     def imprimirvalorO(self, arregloFinal, tiempoCorriendoString1):
         crudDao = appDao()
+       
         if(len(arregloFinal) > 8):
                         tagH1 = arregloFinal[8]
                         tagH1s = tagH1[1:3]
@@ -88,7 +90,7 @@ class Servicio:
                         resultadoString = str(resultado)
                         resultadoFinal = str(resultadoString + " " + self.fecha + " " + tiempoCorriendoString1).split(" ")
                         
-                        crudDao.updateO(resultadoFinal)
+                        crudDao.updateO(resultadoFinal, tiempoCorriendoString1)
                         
                         #resultadoString[0] = tag
                         #resultadoString[2] = hora_inicial
@@ -96,7 +98,8 @@ class Servicio:
                         #print(resultadoFinal[0])
                         #print(hora_inicial)
                         
-                        #print(resultadoFinal)                       
+                        #print(resultadoFinal)   
+                                        
                         print(resultadoFinal)
                                                 
                         if(len(resultadoString) != 4):
@@ -112,17 +115,20 @@ class Servicio:
                                 resultadoString = str(resultado)
                                 resultadoFinal = str(resultadoString + " " + self.fecha + " " + tiempoCorriendoString1).split(" ")
                                 
-                                crudDao.updateO(resultadoFinal)
+                                crudDao.updateO(resultadoFinal, tiempoCorriendoString1)
                                 
                                 #resultadoString[0] = tag
                                 #resultadoString[2] = hora_inicial
                                 
                                 #print(tag)
                                 #print(hora_inicial)
+                                
                                 print(resultadoFinal)
+        
 
     def imprimirvalorD(self,arregloFinal, tiempoCorriendoString1):
         crudDao = appDao()
+      
         if(len(arregloFinal) > 8):
                         tagH1 = arregloFinal[8]
                         tagH1s = tagH1[1:3]
@@ -136,7 +142,7 @@ class Servicio:
                         resultadoString = str(resultado)
                         resultadoFinal = str(resultadoString + " " + self.fecha + " " + tiempoCorriendoString1).split(" ")
                         
-                        crudDao.updateD(resultadoFinal)
+                        crudDao.updateD(resultadoFinal, tiempoCorriendoString1)
                         
                         #resultadoString[0] = tag
                         #resultadoString[2] = hora_inicial
@@ -144,7 +150,8 @@ class Servicio:
                         #print(resultadoFinal[0])
                         #print(hora_inicial)
                         
-                        #print(resultadoFinal)                       
+                        #print(resultadoFinal)
+                                         
                         print(resultadoFinal)
                                                 
                         if(len(resultadoString) != 4):
@@ -160,20 +167,23 @@ class Servicio:
                                 resultadoString = str(resultado)
                                 resultadoFinal = str(resultadoString + " " + self.fecha + " " + tiempoCorriendoString1).split(" ")
                                 
-                                crudDao.updateD(resultadoFinal)
+                                crudDao.updateD(resultadoFinal, tiempoCorriendoString1)
                                 
                                 #resultadoString[0] = tag
                                 #resultadoString[2] = hora_inicial
                                 
                                 #print(tag)
                                 #print(hora_inicial)
+                                
                                 print(resultadoFinal)
+        
 
-    def obtenerValorO(self, arregloCompletoO, tiempoCorriendoString1):
+    def obtenerValorO(self, arregloCompletoO, tiempoCorriendoString1, mensajeServidor):
+       
         if(len(arregloCompletoO) > 1):
             
             primerValor = arregloCompletoO[1]
-            finalValor = str(mensajeServidorO)[-2]
+            finalValor = str(mensajeServidor)[-2]
             
             #print(primerValor)
             #print(finalValor)
@@ -187,17 +197,17 @@ class Servicio:
                 if(arregloCompletoO[2][0:3] == "x0f"):
                     if(primerValor[0:3] == "xaa" and finalValor == "D"):
                         
-                     arregloFinal = str(mensajeServidorO).split('\\',12)
+                     arregloFinal = str(mensajeServidor).split('\\',12)
                     
                      self.imprimirvalorO(arregloFinal, tiempoCorriendoString1)
                     #print(arregloFinal)
                     #print(len(arregloFinal))
                     
-    def obtenerValorD(self, arregloCompletoD, tiempoCorriendoString1):
+    def obtenerValorD(self, arregloCompletoD, tiempoCorriendoString1, mensajeServidor):
         if(len(arregloCompletoD) > 1):
             
             primerValor = arregloCompletoD[1]
-            finalValor = str(mensajeServidorD)[-2]
+            finalValor = str(mensajeServidor)[-2]
             
             #print(primerValor)
             #print(finalValor)
@@ -211,16 +221,27 @@ class Servicio:
                 if(arregloCompletoD[2][0:3] == "x0f"):
                     if(primerValor[0:3] == "xaa" and finalValor == "D"):
                         
-                     arregloFinal = str(mensajeServidorD).split('\\',12)
+                     arregloFinal = str(mensajeServidor).split('\\',12)
                     
                      self.imprimirvalorD(arregloFinal, tiempoCorriendoString1)
                     #print(arregloFinal)
                     #print(len(arregloFinal))
+    
+    def contadorO(self,entero):
+       self.enteroO = entero
+    def contadorD(self,entero):
+      self.enteroD = entero
+    def getO(self):
+      return self.enteroO
+    def getD(self):
+      return self.enteroD
+
 
     def servicioFuncion(self):
         crudDao = appDao()
+        contador = 0
         while (datetime.now() - self.tiempo).seconds <= ( float(self.tiempoDuracion) - 0.5):
-                
+                contador = contador + 1 
                 mensajeServidorD = self.soD.mensajeServer()
                 mensajeServidorO =  self.soO.mensajeServer()
                 arregloCompletoD = str(mensajeServidorD).split('\\')
@@ -235,9 +256,10 @@ class Servicio:
                 crudDao.insersionD(self.nombreAntenaD, self.distancia, self.muestra, self.fecha, tiempoCorriendo, self.tag, self.hora_inicial,  self.tiempoDuracion)
                 crudDao.insersionO(self.nombreAntenaO,self.distancia,self.muestra,self.fecha,tiempoCorriendo,self.tag,self.hora_inicial,  self.tiempoDuracion)
                 
-                self.obtenerValorD(arregloCompletoD,tiempoCorriendoString)
-                self.obtenerValorO(arregloCompletoO,tiempoCorriendoString)
-
+                self.obtenerValorD(arregloCompletoD,tiempoCorriendoString,mensajeServidorD)
+                self.obtenerValorO(arregloCompletoO,tiempoCorriendoString,mensajeServidorO)
+                self.contadorO(contador)
+                self.contadorD(contador)
                 #print(arregloCompleto)
                 #print(len(arregloCompleto))
                 
